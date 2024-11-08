@@ -1,6 +1,7 @@
 package com.iflove.starter.frequencycontrol.annotation;
 
-import com.iflove.starter.frequencycontrol.domain.constant.FrequencyControlConstant;
+import com.iflove.starter.frequencycontrol.domain.enums.FrequencyControlStrategyEnum;
+import com.iflove.starter.frequencycontrol.domain.enums.FrequencyControlTargetEnum;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +18,9 @@ import java.util.concurrent.TimeUnit;
 public @interface FrequencyControl {
     /**
      * 策略
+     * @see FrequencyControlStrategyEnum
      */
-    String strategy() default FrequencyControlConstant.TOTAL_COUNT_WITH_IN_FIX_TIME;
+    FrequencyControlStrategyEnum strategy() default FrequencyControlStrategyEnum.TOTAL_COUNT_WITH_IN_FIX_TIME;
 
     /**
      * 窗口大小，默认 5 个 period
@@ -32,7 +34,7 @@ public @interface FrequencyControl {
 
 
     /**
-     * key的前缀，默认取方法全限定名，除非我们在不同方法上对同一个资源做频控，就自己指定
+     * key的前缀，默认取方法全限定名
      *
      * @return key的前缀
      */
@@ -41,10 +43,10 @@ public @interface FrequencyControl {
     /**
      * 频控对象，默认el表达指定具体的频控对象
      * 对于ip 和uid模式，需要是http入口的对象，保证RequestHolder里有值
-     *
+     * @see FrequencyControlTargetEnum
      * @return 对象
      */
-    Target target() default Target.EL;
+    FrequencyControlTargetEnum target() default FrequencyControlTargetEnum.EL;
 
     /**
      * springEl 表达式，target=EL必填
@@ -78,9 +80,4 @@ public @interface FrequencyControl {
 
     double refillRate() default 0.5; // 每秒补充的令牌数
 
-    enum Target {
-        UID,
-        IP,
-        EL
-    }
 }
