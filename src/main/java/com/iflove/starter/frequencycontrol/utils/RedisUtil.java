@@ -2,8 +2,12 @@ package com.iflove.starter.frequencycontrol.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -17,9 +21,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RedisUtil {
     private static StringRedisTemplate template;
+    private static final DefaultRedisScript<Long> REDIS_SCRIPT;
 
     static {
         RedisUtil.template = SpringUtil.getBean(StringRedisTemplate.class);
+        REDIS_SCRIPT = new DefaultRedisScript<>();
+        REDIS_SCRIPT.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/FixWindow.lua")));
+        REDIS_SCRIPT.setResultType(Long.class);
+    }
+
+    public static Long inc(String key, int time, TimeUnit timeUnit) {
+        return template.execute(REDIS_SCRIPT, Collections.singletonList(key), String.valueOf(timeUnit.toSeconds(time)));
     }
 
     /**
