@@ -34,6 +34,15 @@ public class RedisUtil {
         return template.execute(REDIS_SCRIPT, Collections.singletonList(key), String.valueOf(timeUnit.toSeconds(time)));
     }
 
+    public static void zAddAndExpire(String key, long startTime, long expireTime, long currentTime) {
+        // 添加当前时间
+        template.opsForZSet().add(key, String.valueOf(currentTime), currentTime);
+        // 删除周期之前的数据
+        template.opsForZSet().removeRangeByScore(key, 0, startTime);
+        // 过期时间窗口长度+时间间隔
+        template.expire(key, expireTime, TimeUnit.MICROSECONDS);
+    }
+
     /**
      * 指定缓存失效时间
      *
