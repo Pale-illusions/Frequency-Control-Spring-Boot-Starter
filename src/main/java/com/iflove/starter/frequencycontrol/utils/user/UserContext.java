@@ -1,4 +1,4 @@
-package com.iflove.starter.frequencycontrol.utils;
+package com.iflove.starter.frequencycontrol.utils.user;
 
 import java.util.Optional;
 

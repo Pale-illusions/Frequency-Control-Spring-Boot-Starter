@@ -15,6 +15,17 @@
     <description>Frequency-Control-Spring-Boot-Starter</description>
 
     <dependencies>
+        <!--web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!--jackson-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

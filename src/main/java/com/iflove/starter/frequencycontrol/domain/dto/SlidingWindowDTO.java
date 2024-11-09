@@ -1,5 +1,6 @@
 package com.iflove.starter.frequencycontrol.domain.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**

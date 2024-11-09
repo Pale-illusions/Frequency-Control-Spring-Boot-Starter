@@ -1,10 +1,12 @@
 package com.iflove.starter.frequencycontrol.service.frequencycontrol;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.iflove.starter.frequencycontrol.domain.dto.FrequencyControlDTO;
 import com.iflove.starter.frequencycontrol.domain.enums.FrequencyControlStrategyEnum;
 import com.iflove.starter.frequencycontrol.exception.FrequencyControlException;
 import com.iflove.starter.frequencycontrol.exception.ServiceException;
+import io.netty.util.internal.StringUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,52 +37,39 @@ public abstract class AbstractFrequencyControlService<K extends FrequencyControl
      * @param frequencyControlMap   定义的注解频控
      *                              Map中的Key-{@link K#getKey()}-对应redis的单个频控的Key
      *                              Map中的Value-对应redis的单个频控的Key限制的Value
-     * @param supplier              函数式入参-代表每个频控方法执行的不同的业务逻辑
-     * @return 业务方法返回值
-     * @throws Throwable 业务异常
      */
-    private <T> T executeWithFrequencyControlMap(Map<String, K> frequencyControlMap, SupplierThrow<T> supplier) throws Throwable {
+    private void executeWithFrequencyControlMap(Map<String, K> frequencyControlMap) {
         // 判断：是否达到限流阈值
         if (reachRateLimit(frequencyControlMap)) {
             throw new FrequencyControlException((String) null);
         }
-        try {
-            return supplier.get();
-        } finally {
-            // 无论切面调用是否成功，均增加限流统计
-            addFrequencyControlStatisticsCount(frequencyControlMap);
-        }
+        // 增加限流统计
+        addFrequencyControlStatisticsCount(frequencyControlMap);
     }
 
     /**
      * 多限流策略的编程式调用
      *
      * @param frequencyControlList  频控列表
-     * @param supplier              函数式入参 - 代表频控目标方法的业务逻辑
-     * @return 业务方法返回值
-     * @throws Throwable 业务异常
      */
-    public <T> T executeWithFrequencyControlList(List<K> frequencyControlList, SupplierThrow<T> supplier) throws Throwable {
+    public void executeWithFrequencyControlList(List<K> frequencyControlList) {
         // 保证频控对象 key 不为空，否则报错
-        boolean existsFrequencyControlHasNullKey = frequencyControlList.stream().anyMatch(frequencyControl -> Objects.isNull(frequencyControl.getKey()));
+        boolean existsFrequencyControlHasNullKey = frequencyControlList.stream().anyMatch(frequencyControl -> StrUtil.isBlank(frequencyControl.getKey()));
         if (existsFrequencyControlHasNullKey) {
             throw new ServiceException("限流策略的Key字段不允许出现空值");
         }
         // 根据频控对象的key，生成键值映射
         Map<String, K> frequencyControlDTOMap = frequencyControlList.stream().collect(Collectors.groupingBy(K::getKey, Collectors.collectingAndThen(Collectors.toList(), list -> list.get(0))));
-        return executeWithFrequencyControlMap(frequencyControlDTOMap, supplier);
+        executeWithFrequencyControlMap(frequencyControlDTOMap);
     }
 
     /**
      * 单限流策略的编程式调用
      *
      * @param frequencyControl  频控对象
-     * @param supplier          函数式入参 - 代表频控目标方法的业务逻辑
-     * @return 业务方法返回值
-     * @throws Throwable 业务异常
      */
-    public <T> T executeWithFrequencyControl(K frequencyControl, SupplierThrow<T> supplier) throws Throwable {
-        return executeWithFrequencyControlList(Collections.singletonList(frequencyControl), supplier);
+    public void executeWithFrequencyControl(K frequencyControl) {
+        executeWithFrequencyControlList(Collections.singletonList(frequencyControl));
     }
 
     /**
@@ -101,16 +90,6 @@ public abstract class AbstractFrequencyControlService<K extends FrequencyControl
      *                            Map中的Value-对应redis的单个频控的Key限制的Value
      */
     protected abstract void addFrequencyControlStatisticsCount(Map<String, K> frequencyControlMap);
-
-    @FunctionalInterface
-    public interface SupplierThrow<T> {
-        /**
-         * Gets a result.
-         *
-         * @return a result
-         */
-        T get() throws Throwable;
-    }
 
     /**
      * 获取策略类枚举
