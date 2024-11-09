@@ -45,7 +45,7 @@ public class TokenBucketManager {
         if (tokenBucket != null) {
             return tokenBucket.tryAcquire(permits);
         }
-        return false;
+        return true;
     }
 
     public void deductionToken(String key, int permits) {
