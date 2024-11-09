@@ -25,12 +25,12 @@ public @interface FrequencyControl {
     /**
      * 窗口大小，默认 5 个 period
      */
-    int windowSize() default 5;
+    int windowSize() default -1;
 
     /**
      * 窗口最小周期 1s (窗口大小是 5s， 1s一个小格子，共10个格子)
      */
-    int period() default 1;
+    int period() default -1;
 
 
     /**
@@ -60,7 +60,7 @@ public @interface FrequencyControl {
      *
      * @return 时间范围
      */
-    int time() default 10;
+    int time() default -1;
 
     /**
      * 频控时间单位，默认秒
@@ -74,10 +74,10 @@ public @interface FrequencyControl {
      *
      * @return 次数
      */
-    int count() default 1;
+    int count() default -1;
 
-    long capacity() default 3; // 令牌桶容量
+    long capacity() default -1; // 令牌桶容量
 
-    double refillRate() default 0.5; // 每秒补充的令牌数
+    double refillRate() default -1; // 每秒补充的令牌数
 
 }

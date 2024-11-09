@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 public enum FrequencyControlStrategyEnum {
-    TOTAL_COUNT_WITH_IN_FIX_TIME(1, "固定窗口"),
-    SLIDING_WINDOW(2, "滑动窗口"),
-    TOKEN_BUCKET(3, "令牌桶"),
+    TOTAL_COUNT_WITH_IN_FIX_TIME(1, "TOTAL_COUNT_WITH_IN_FIX_TIME"),
+    SLIDING_WINDOW(2, "SLIDING_WINDOW"),
+    TOKEN_BUCKET(3, "TOKEN_BUCKET"),
     ;
 
     private final Integer code;

@@ -15,3 +15,5 @@
 # limitations under the License.
 #
 
+com.iflove.starter.frequencycontrol.config.user.UserAutoConfiguration
+com.iflove.starter.frequencycontrol.config.frequencycontrol.FrequencyControlConfiguration

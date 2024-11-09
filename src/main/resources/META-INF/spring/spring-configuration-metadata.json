@@ -1,0 +1,65 @@
+{
+  "groups": [
+    {
+      "name": "frequencycontrol",
+      "type": "com.iflove.starter.frequencycontrol.config.frequencycontrol.FrequencyControlProperties",
+      "description": "Frequency control properties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "frequencycontrol.strategy",
+      "type": "com.iflove.starter.frequencycontrol.domain.enums.FrequencyControlStrategyEnum",
+      "description": "The strategy for frequency control",
+      "defaultValue": "TOTAL_COUNT_WITH_IN_FIX_TIME"
+    },
+    {
+      "name": "frequencycontrol.target",
+      "type": "com.iflove.starter.frequencycontrol.domain.enums.FrequencyControlTargetEnum",
+      "description": "The target for frequency control",
+      "defaultValue": "EL"
+    },
+    {
+      "name": "frequencycontrol.window-size",
+      "type": "java.lang.Integer",
+      "description": "Window size for frequency control",
+      "defaultValue": 5
+    },
+    {
+      "name": "frequencycontrol.period",
+      "type": "java.lang.Integer",
+      "description": "Minimum period for frequency control",
+      "defaultValue": 1
+    },
+    {
+      "name": "frequencycontrol.time",
+      "type": "java.lang.Integer",
+      "description": "Time range for frequency control in seconds",
+      "defaultValue": 10
+    },
+    {
+      "name": "frequencycontrol.unit",
+      "type": "java.util.concurrent.TimeUnit",
+      "description": "Time unit for frequency control",
+      "defaultValue": "SECONDS"
+    },
+    {
+      "name": "frequencycontrol.count",
+      "type": "java.lang.Integer",
+      "description": "Maximum access count in the specified time range",
+      "defaultValue": 1
+    },
+    {
+      "name": "frequencycontrol.capacity",
+      "type": "java.lang.Long",
+      "description": "Capacity of the token bucket",
+      "defaultValue": 3
+    },
+    {
+      "name": "frequencycontrol.refill-rate",
+      "type": "java.lang.Double",
+      "description": "Refill rate for the token bucket per second",
+      "defaultValue": 0.5
+    }
+  ]
+}
