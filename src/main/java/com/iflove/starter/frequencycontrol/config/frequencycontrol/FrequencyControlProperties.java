@@ -61,7 +61,7 @@ public class FrequencyControlProperties {
     /**
      * 单位时间内最大访问次数
      */
-    private int count = 1;
+    private int count = 10;
 
     /**
      * 令牌桶容量，默认 3

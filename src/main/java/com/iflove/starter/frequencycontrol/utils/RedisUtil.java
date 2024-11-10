@@ -40,7 +40,7 @@ public class RedisUtil {
         // 删除周期之前的数据
         template.opsForZSet().removeRangeByScore(key, 0, startTime);
         // 过期时间窗口长度+时间间隔
-        template.expire(key, expireTime, TimeUnit.MICROSECONDS);
+        template.expire(key, expireTime, TimeUnit.MILLISECONDS);
     }
 
     /**

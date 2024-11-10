@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @implNote 用户上下文过滤器
  */
 
-public class UserTransmitFilter implements Filter {
+public class FrequencyControlUserTransmitFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

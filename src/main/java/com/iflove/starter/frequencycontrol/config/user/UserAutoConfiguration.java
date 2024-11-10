@@ -1,6 +1,6 @@
 package com.iflove.starter.frequencycontrol.config.user;
 
-import com.iflove.starter.frequencycontrol.intercepter.UserTransmitFilter;
+import com.iflove.starter.frequencycontrol.intercepter.FrequencyControlUserTransmitFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +20,9 @@ public class UserAutoConfiguration {
      * 用户信息传递过滤器
      */
     @Bean
-    public FilterRegistrationBean<UserTransmitFilter> globalUserTransmitFilter() {
-        FilterRegistrationBean<UserTransmitFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(new UserTransmitFilter());
+    public FilterRegistrationBean<FrequencyControlUserTransmitFilter> FrequencyControlUserTransmitFilter() {
+        FilterRegistrationBean<FrequencyControlUserTransmitFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new FrequencyControlUserTransmitFilter());
         registration.addUrlPatterns("/*");
         registration.setOrder(USER_TRANSMIT_FILTER_ORDER);
         return registration;

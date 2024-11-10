@@ -149,9 +149,9 @@ public class FrequencyControlAspect {
                                 ? annotation.unit() : properties.getUnit())
                         .count(!Objects.equals(annotation.count(), -1)
                                 ? annotation.count() : properties.getCount())
-                        .capacity(!Objects.equals(annotation.capacity(), -1)
+                        .capacity(!Objects.equals(annotation.capacity(), -1L)
                                 ? annotation.capacity() : properties.getCapacity())
-                        .refillRate(!Objects.equals(annotation.refillRate(), -1)
+                        .refillRate(!Objects.equals(annotation.refillRate(), -1.0)
                                 ? annotation.refillRate() : properties.getRefillRate())
                         .build()
                 ).collect(Collectors.toList());

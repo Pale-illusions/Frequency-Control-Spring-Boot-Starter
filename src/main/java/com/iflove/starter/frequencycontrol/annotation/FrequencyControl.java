@@ -76,8 +76,8 @@ public @interface FrequencyControl {
      */
     int count() default -1;
 
-    long capacity() default -1; // 令牌桶容量
+    long capacity() default -1L; // 令牌桶容量
 
-    double refillRate() default -1; // 每秒补充的令牌数
+    double refillRate() default -1.0; // 每秒补充的令牌数
 
 }

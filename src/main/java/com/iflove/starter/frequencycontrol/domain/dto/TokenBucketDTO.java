@@ -47,10 +47,7 @@ public class TokenBucketDTO extends FrequencyControlDTO {
         lock.lock();
         try {
             refillTokens();
-            if (tokens < permits) {
-                return true;
-            }
-            return false;
+            return tokens >= permits;
         } finally {
             lock.unlock();
         }
